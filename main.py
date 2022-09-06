@@ -7,10 +7,10 @@ import argparse
 
 env = Env()
 env.read_env()
-TOKEN_BITLY = env("TOKEN_BITLY")
+BITLY_TOKEN = env("BITLY_TOKEN")
 
-def shorten_link(TOKEN_BITLY, url):
-    headers = {'Authorization': f'Bearer {TOKEN_BITLY}'}
+def shorten_link(BITLY_TOKEN, url):
+    headers = {'Authorization': f'Bearer {BITLY_TOKEN}'}
     payload = {'long_url': url}
     bitly_url = 'https://api-ssl.bitly.com/v4/bitlinks'
     response = requests.post(bitly_url, headers=headers, json=payload)
@@ -19,8 +19,8 @@ def shorten_link(TOKEN_BITLY, url):
     return bitlink
 
 
-def count_clicks(TOKEN_BITLY, bitlink):
-    headers = {'Authorization': f'Bearer {TOKEN_BITLY}'}
+def count_clicks(BITLY_TOKEN, bitlink):
+    headers = {'Authorization': f'Bearer {BITLY_TOKEN}'}
     bitly_url = f'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}\
     /clicks/summary'
     response = requests.get(bitly_url, headers=headers)
@@ -29,8 +29,8 @@ def count_clicks(TOKEN_BITLY, bitlink):
     return total_clicks
 
 
-def is_bitlink(url, TOKEN_BITLY):
-    headers = {'Authorization': f'Bearer {TOKEN_BITLY}'}
+def is_bitlink(url, BITLY_TOKEN):
+    headers = {'Authorization': f'Bearer {BITLY_TOKEN}'}
     bitly_url = f'https://api-ssl.bitly.com/v4/bitlinks/{url}'
     response = requests.get(bitly_url, headers=headers)
     return response.ok
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     link_from_args = args.url
     url_parts = urlparse(link_from_args)
     basic_url = f'{url_parts.netloc}{url_parts.path}'
-    if is_bitlink(basic_url, TOKEN_BITLY):
-        print('Total clicks:', count_clicks(TOKEN_BITLY, basic_url))
+    if is_bitlink(basic_url, BITLY_TOKEN):
+        print('Total clicks:', count_clicks(BITLY_TOKEN, basic_url))
     else:
-        print('Shorten link:', shorten_link(TOKEN_BITLY, link_from_args))
+        print('Shorten link:', shorten_link(BITLY_TOKEN, link_from_args))
