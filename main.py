@@ -36,7 +36,7 @@ def is_bitlink(url, TOKEN):
 
 
 if __name__ == '__main__':
-    TOKEN = env("TOKEN")
+    TOKEN = env("TOKEN_BITLY")
     parser = argparse.ArgumentParser()
     url_arg = parser.add_argument('url')
     args = parser.parse_args()
