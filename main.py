@@ -8,6 +8,8 @@ import argparse
 BITLY_TOKEN = None
 
 def shorten_link(BITLY_TOKEN, url):
+    url_parts = urlparse(args.url)
+    basic_url = f'{url_parts.netloc}{url_parts.path}'
     headers = {'Authorization': f'Bearer {BITLY_TOKEN}'}
     payload = {'long_url': url}
     bitly_url = 'https://api-ssl.bitly.com/v4/bitlinks'
